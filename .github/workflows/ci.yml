@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: 📦 Install dependencies
+        run: bun install
+
+      - name: 🧹 Check formatting
+        run: bun run format --check || (echo "Run 'bun run format' to fix formatting." && exit 1)
+
+      - name: 🧪 Run tests
+        run: bun run test
+
+      - name: 📊 Run coverage
+        run: bun run test:coverage
+
+      - name: ✅ Type check
+        run: bun run type:check

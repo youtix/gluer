@@ -1,0 +1,23 @@
+# Node / Bun dependencies
+node_modules/
+bun.lockb
+
+# Build output
+dist/
+coverage/
+merged_output.txt
+
+# Logs
+*.log
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+test-output/
+*.test.ts.snap
+
+# Optional environment configs
+.env
+.env.*.local
