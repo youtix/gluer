@@ -21,10 +21,7 @@ jobs:
         run: bun install
 
       - name: 🧹 Check formatting
-        run: bun run format --check || (echo "Run 'bun run format' to fix formatting." && exit 1)
-
-      - name: 🧪 Run tests
-        run: bun run test
+        run: bun run format:check
 
       - name: 📊 Run coverage
         run: bun run test:coverage

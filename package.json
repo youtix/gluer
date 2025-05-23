@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Merge content from files into a single output file using Bun",
   "bin": {
-    "gluer": "./src/gluer"
+    "gluer": "./src/gluer.ts"
   },
   "scripts": {
     "build": "bun build src/gluer.ts --compile --outfile dist/gluer",
     "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json,md}\"",
+    "prepare": "husky install",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
@@ -23,8 +25,11 @@
   "author": "Youtix",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/bun": "^1.2.14",
     "@vitest/coverage-v8": "3.1.4",
+    "husky": "^9.1.7",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
     "vitest": "^3.1.4"
