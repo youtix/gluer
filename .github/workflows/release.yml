@@ -13,29 +13,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout sources
+      - name: 📥 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
 
-      - name: Install Bun
-        uses: oven-sh/setup-bun@v1
+      - name: 🔧 Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          bun-version: 1.x
+          bun-version: latest
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Build CLI binary
+      - name: 🧱 Build CLI binary
         run: bun run build
 
-      - name: Archive binary
+      - name: 🗃️ Archive binary
         run: |
           cd dist
           zip gluer_${{ github.ref_name }}.zip gluer
           echo "ASSET_PATH=dist/gluer_${{ github.ref_name }}.zip" >> $GITHUB_ENV
 
-      - name: Generate release notes from CHANGELOG
+      - name: 📆 Generate release notes from CHANGELOG
         id: changelog
         run: |
           version="${{ github.ref_name }}"         # ex: v1.2.3
@@ -44,7 +45,7 @@ jobs:
           cat body.md >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Create GitHub Release and upload asset
+      - name: 🖼️ Create GitHub Release and upload asset
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
