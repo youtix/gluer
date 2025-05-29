@@ -1,0 +1,55 @@
+name: Release (auto)
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.x
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build CLI binary
+        run: bun run build
+
+      - name: Archive binary
+        run: |
+          cd dist
+          zip gluer_${{ github.ref_name }}.zip gluer
+          echo "ASSET_PATH=dist/gluer_${{ github.ref_name }}.zip" >> $GITHUB_ENV
+
+      - name: Generate release notes from CHANGELOG
+        id: changelog
+        run: |
+          version="${{ github.ref_name }}"         # ex: v1.2.3
+          awk "BEGIN{p=0}/^## \\[${version#v}\\]/{p=1;next}/^## \\[/{p=0}p" CHANGELOG.md > body.md
+          echo "notes<<EOF" >> $GITHUB_OUTPUT
+          cat body.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release and upload asset
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.notes }}
+          files: ${{ env.ASSET_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

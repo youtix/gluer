@@ -68,7 +68,7 @@ bun run format
 To check formatting without modifying files:
 
 ```bash
-bun run format --check
+bun run format:check
 ```
 
 ## 🧾 Type Checking
@@ -85,6 +85,16 @@ To compile a standalone binary:
 
 ```bash
 bun run build
+```
+
+### Releasing
+
+```bash
+# detect version from commits
+bun run release
+
+# or force a specific bump
+bun run release:patch | release:minor | release:major
 ```
 
 ## 📁 Project Structure

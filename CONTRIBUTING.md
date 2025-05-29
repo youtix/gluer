@@ -33,7 +33,7 @@ Before submitting your changes:
 ```bash
 bun run test
 bun run type:check
-bun run format --check
+bun run format:check
 ```
 
 ### 5. Commit and Push
