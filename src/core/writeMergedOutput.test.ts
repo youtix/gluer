@@ -1,4 +1,3 @@
-// tests/core/writeMergedOutput.test.ts
 import { describe, it, beforeEach, afterEach, expect } from 'vitest';
 import { writeMergedOutput } from './writeMergedOutput';
 import { promises as fs } from 'fs';
@@ -42,7 +41,7 @@ describe('writeMergedOutput', () => {
     await cleanupDir();
   });
 
-  it('writes merged output with headers and contents', async () => {
+  it('should write merged output with headers and contents', async () => {
     const filePaths = [path.join(tempDir, file1Name), path.join(tempDir, file2Name)];
     const outputPath = path.join(tempDir, outputName);
 
@@ -58,7 +57,7 @@ describe('writeMergedOutput', () => {
     expect(result).toBe(expected);
   });
 
-  it('overwrites existing output file', async () => {
+  it('should overwrite existing output file', async () => {
     const outputPath = path.join(tempDir, outputName);
     // Pre-populate with dummy content
     await fs.writeFile(outputPath, 'dummy', 'utf-8');

@@ -1,4 +1,3 @@
-// tests/core/collectFiles.test.ts
 import { describe, it, beforeEach, afterEach, expect } from 'vitest';
 import { collectFiles } from '../../src/core/collectFiles';
 import { promises as fs } from 'fs';
@@ -51,7 +50,7 @@ describe('collectFiles', () => {
     await cleanup();
   });
 
-  it('collects all files when no exclusions and no output filter', async () => {
+  it('should collect all files when no exclusions and no output filter', async () => {
     const paths = [tempDir];
     const result = await collectFiles(paths, []);
     const sorted = result.map((p) => path.relative(tempDir, p)).sort();
@@ -67,7 +66,7 @@ describe('collectFiles', () => {
     );
   });
 
-  it('excludes files by extension', async () => {
+  it('should exclude files by extension', async () => {
     const paths = [tempDir];
     const result = await collectFiles(paths, ['.log', '.txt']);
     const sorted = result.map((p) => path.relative(tempDir, p)).sort();
@@ -80,7 +79,7 @@ describe('collectFiles', () => {
     );
   });
 
-  it('excludes the output file when outputAbs is provided', async () => {
+  it('should exclude the output file when outputAbs is provided', async () => {
     const outputPath = path.resolve(tempDir, 'output.txt');
     const paths = [tempDir];
     const result = await collectFiles(paths, [], [], outputPath);
@@ -88,13 +87,13 @@ describe('collectFiles', () => {
     expect(rels).not.toContain('output.txt');
   });
 
-  it('collects single file path input', async () => {
+  it('should collect single file path input', async () => {
     const filePath = path.resolve(tempDir, 'root.txt');
     const result = await collectFiles([filePath], []);
     expect(result).toEqual([filePath]);
   });
 
-  it('excludes paths explicitly provided in excludePaths', async () => {
+  it('should exclude paths explicitly provided in excludePaths', async () => {
     const excludePath = path.resolve(tempDir, 'excludeMe');
     const paths = [tempDir];
     const result = await collectFiles(paths, [], [excludePath]);
