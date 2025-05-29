@@ -1,6 +1,6 @@
 {
   "name": "gluer",
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
   "description": "Merge content from files into a single output file using Bun",
   "bin": {
     "gluer": "./src/gluer.ts"
